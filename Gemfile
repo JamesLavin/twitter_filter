@@ -1,6 +1,9 @@
 source "https://rubygems.org"
 
-gem 'rspec'
-gem 'rspec-mocks'
 gem 'tweetstream'
-gem 'fakefs'
+
+group :test, :development do
+  gem 'rspec'
+  gem 'rspec-mocks'
+  gem 'fakefs'
+end

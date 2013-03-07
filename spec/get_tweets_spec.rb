@@ -79,14 +79,15 @@ describe GetTweets do
 
   end
 
-  describe "#latest" do
+  describe "#sample" do
   
     let(:gt) { GetTweets.new(File.expand_path("~/.backup_my_tweets")) }
 
     it "gets and saves the correct number of tweets" do
      
-      twenty_tweets = gt.latest(20)
+      twenty_tweets = gt.sample(20, {display: false})
       twenty_tweets.size.should == 20
+      twenty_tweets.serialize("/home/jimmy/Ruby_programs/twitter_filter/fixtures/tweets/twenty_tweets_4.yml")
 
     end
 

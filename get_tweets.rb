@@ -7,13 +7,15 @@ require 'date'
 require 'fileutils'
 require 'time'
 require_relative 'tweets'
+require_relative 'tweet'
 
 class GetTweets
 
   class NoOauthFileException < Exception; end
   class InvalidOauthFileException < Exception; end
 
-  attr_writer :tweets
+  attr_accessor :display
+  attr_writer :tweets, :more_tweets
 
   def initialize(oauth_file = nil)
     raise_no_oauth_file_exception unless oauth_file && File.exists?(oauth_file)
@@ -22,6 +24,10 @@ class GetTweets
 
   def tweets
     @tweets ||= Tweets.new
+  end
+
+  def more_tweets
+    @more_tweets ||= nil
   end
 
   def display_oauth_file_explanation
@@ -61,57 +67,31 @@ class GetTweets
     end
   end
 
-  def latest(num = nil)
+  def handle_tweet(tweet)
+    tweet.display if display
+    if more_tweets
+      self.more_tweets -= 1
+      self.tweets << tweet
+    end
+  rescue Exception => e
+    puts "***Error saving tweet***: #{e.message}\n"
+  end
+
+  def sample(num = nil, config = {})
+    self.more_tweets = num if num
+    self.display = config[:display] || true
     TweetStream::Client.new.sample do |status|
-      begin
-        display_tweet(status)
-        if num
-          num -= 1
-          tweets << status
-          return tweets if num == 0
-        end
-      rescue Exception => e
-        puts "\n***Error saving tweet***: #{e.message}\n"
-      end
+      handle_tweet(status)
+      return tweets if more_tweets == 0
     end
   end
 
-  def track_term(term)
+  def track_term(term, num = nil, config = {})
+    self.more_tweets = num if num
+    self.display = config[:display] || true
     TweetStream::Client.new.track(term) do |status|
-      begin
-        display_tweet(status)
-      rescue Exception => e
-        puts "\n***Error saving tweet***: #{e.message}\n"
-      end
+      handle_tweet(status)
+      return tweets if more_tweets == 0
     end
   end
-
-  def display_time_ago(seconds)
-    if seconds < 60
-      return "less than a minute ago"
-    elsif seconds < 60*2
-      return "about a minute ago"
-    elsif seconds < 60*60
-      return "about #{(seconds/60).round} minutes ago"
-    elsif seconds < 60*60*2
-      return "about an hour ago"
-    elsif seconds < 60*60*24
-      return "about #{(seconds/(60*60)).round} hours ago"
-    else
-      return "about #{(seconds/(60*60*24)).round} days ago"
-    end
-  end
-
-  def display_tweet(status)
-    puts status.user.screen_name
-    puts status.full_text
-    puts status.user.profile_image_url
-    puts "from " + status.source
-    puts status.created_at
-    seconds_ago = Time.now - status.created_at
-    puts display_time_ago(seconds_ago)
-    #puts (Time.now - DateTime.parse(status.created_at).to_time).to_s + ' seconds ago'
-    puts "#{status.user.screen_name} [#{status.created_at}]: #{status.text}"
-  end
-  
 end
