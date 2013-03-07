@@ -22,7 +22,7 @@ class Tweets
   end
 
   def serialize(save_name)
-    File.open(savename, 'w') do |f|
+    File.open(save_name, 'w') do |f|
       f.write YAML.dump(tweets)
     end
   end
