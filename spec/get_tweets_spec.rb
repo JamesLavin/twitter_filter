@@ -1,4 +1,4 @@
-require_relative "../get_tweets.rb"
+require_relative "../lib/twitter_filter/get_tweets.rb"
 require 'fileutils'
 require 'fakefs/spec_helpers'
 
@@ -87,7 +87,6 @@ describe GetTweets do
      
       twenty_tweets = gt.sample(20, {display: false})
       twenty_tweets.size.should == 20
-      twenty_tweets.serialize("/home/jimmy/Ruby_programs/twitter_filter/fixtures/tweets/twenty_tweets_4.yml")
 
     end
 
