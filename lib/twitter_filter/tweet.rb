@@ -33,7 +33,12 @@ class Twitter::Tweet
     "#{user.screen_name} [#{created_at.to_s}]: #{text}"
   end
   
-  def display_rpt
-    
+  def to_yaml
+    {"full_text" => full_text,
+     "text" => text,
+     "source" => source,
+     "created_at" => created_at.to_s,
+     "display_time_ago" => display_time_ago,
+     "user" => {"screen_name" => user.screen_name, "profile_image_url" => user.profile_image_url}}.to_yaml
   end
 end
