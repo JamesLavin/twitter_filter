@@ -6,6 +6,7 @@ require 'date'
 require 'fileutils'
 require 'time'
 require 'forwardable'
+require_relative 'tweet'
 
 class Tweets
 
@@ -30,7 +31,19 @@ class Tweets
     tweets = YAML.load(File.read(save_name))
   end
 
+  def to_array_of_hashes
+    # makes each Tweet a simple hash
+    # then puts all the hashes into an array
+    arr = []
+    tweets.each do |tweet|
+      arr << tweet.to_hash
+    end
+    arr
+  end
+
   def to_json
+    # formats each Tweet using JSON
+    # then returns a JSON array with all the tweets
     json_string = "["
     tweets.each do |tweet|
       json_string += tweet.to_json
