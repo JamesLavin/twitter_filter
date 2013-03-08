@@ -79,18 +79,20 @@ class GetTweets
   def sample(num = nil, config = {})
     self.more_tweets = num if num
     self.display = (config[:display] && config[:display] == false) ? false : true
-    TweetStream::Client.new.sample do |status|
+    TweetStream::Client.new.sample do |status, client|
       handle_tweet(status)
-      return tweets if more_tweets == 0
+      client.stop if more_tweets == 0
     end
+    tweets
   end
 
   def track_term(term, num = nil, config = {})
     self.more_tweets = num if num
     self.display = config[:display] || true
-    TweetStream::Client.new.track(term) do |status|
+    TweetStream::Client.new.track(term) do |status, client|
       handle_tweet(status)
-      return tweets if more_tweets == 0
+      client.stop if more_tweets == 0
     end
+    tweets
   end
 end
