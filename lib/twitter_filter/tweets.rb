@@ -15,7 +15,7 @@ class Tweets
   include Enumerable
   extend Forwardable
 
-  def_delegators :@tweets, :each, :<<, :[], :[]=, :concat, :size, :first, :last
+  def_delegators :@tweets, :each, :<<, :[], :[]=, :concat, :size, :length, :first, :last
 
   def initialize(config={})
     @tweets = config[:tweets] || []
