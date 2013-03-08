@@ -84,6 +84,7 @@ class GetTweets
       handle_tweet(status)
       client.stop if more_tweets == 0
     end
+    p "*** Returning tweets ***"
     tweets
   end
 
@@ -95,6 +96,7 @@ class GetTweets
       handle_tweet(status)
       client.stop if more_tweets == 0
     end
+    p "*** Returning tweets ***"
     tweets
   end
 end
