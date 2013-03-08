@@ -2,6 +2,7 @@
 
 require 'tweetstream'
 require 'json'
+require_relative 'tweets'
 
 class Twitter::Tweet
 
