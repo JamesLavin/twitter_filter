@@ -19,6 +19,7 @@ class GetTweets
   def initialize(oauth_file = nil)
     raise_no_oauth_file_exception unless oauth_file && File.exists?(File.expand_path(oauth_file))
     configure_tweetstream(File.expand_path(oauth_file))
+    tweets = Tweets.new
   end
 
   def tweets
