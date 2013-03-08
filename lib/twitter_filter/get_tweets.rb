@@ -78,7 +78,7 @@ class GetTweets
 
   def sample(num = nil, config = {})
     self.more_tweets = num if num
-    self.display = config[:display] || true
+    self.display = (config[:display] && config[:display] == false) ? false : true
     TweetStream::Client.new.sample do |status|
       handle_tweet(status)
       return tweets if more_tweets == 0
