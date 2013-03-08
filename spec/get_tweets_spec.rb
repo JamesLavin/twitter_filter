@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require_relative "../lib/twitter_filter/get_tweets.rb"
 require 'fileutils'
 require 'fakefs/spec_helpers'
