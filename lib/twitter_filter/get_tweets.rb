@@ -69,8 +69,9 @@ class GetTweets
   def handle_tweet(tweet)
     tweet.display if display
     if more_tweets
-      self.more_tweets -= 1
+      self.more_tweets = more_tweets - 1
       self.tweets << tweet
+      p "Tweets count: " + tweets.size.to_s
     end
   rescue Exception => e
     puts "***Error saving tweet***: #{e.message}\n"
@@ -84,7 +85,7 @@ class GetTweets
       handle_tweet(status)
       client.stop if more_tweets == 0
     end
-    p "*** Returning tweets ***"
+    (sleep 0.1 until more_tweets == 0) if num
     tweets
   end
 
@@ -96,7 +97,7 @@ class GetTweets
       handle_tweet(status)
       client.stop if more_tweets == 0
     end
-    p "*** Returning tweets ***"
+    (sleep 0.1 until more_tweets == 0) if num
     tweets
   end
 end
