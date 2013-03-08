@@ -35,11 +35,14 @@ class Twitter::Tweet
   end
   
   def to_json
-    {"full_text" => full_text,
-     "text" => text,
-     "source" => source,
-     "created_at" => created_at.to_s,
-     "display_time_ago" => display_time_ago,
-     "user" => {"screen_name" => user.screen_name, "profile_image_url" => user.profile_image_url}}.to_json
+    tweet_hash =
+      {"full_text" => full_text,
+       "text" => text,
+       "source" => source,
+       "created_at" => created_at.to_s,
+       "display_time_ago" => display_time_ago,
+       "user" => {"screen_name" => user.screen_name, "profile_image_url" => user.profile_image_url}}
+    tweet_hash["in_reply_to_screen_name"] = in_reply_to_screen_name if in_reply_to_screen_name
+    tweet_hash.to_json
   end
 end
