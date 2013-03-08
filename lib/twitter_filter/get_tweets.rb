@@ -18,8 +18,8 @@ class GetTweets
   attr_writer :tweets, :more_tweets
 
   def initialize(oauth_file = nil)
-    raise_no_oauth_file_exception unless oauth_file && File.exists?(oauth_file)
-    configure_tweetstream(oauth_file)
+    raise_no_oauth_file_exception unless oauth_file && File.exists?(File.expand_path(oauth_file))
+    configure_tweetstream(File.expand_path(oauth_file))
   end
 
   def tweets
