@@ -2,7 +2,6 @@
 
 require 'tweetstream'
 require 'yaml'
-require 'json'
 require 'date'
 require 'fileutils'
 require 'time'
