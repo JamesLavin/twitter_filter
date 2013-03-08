@@ -30,4 +30,12 @@ class Tweets
     tweets = YAML.load(File.read(save_name))
   end
 
+  def to_json
+    json_string = "["
+    tweets.each do |tweet|
+      json_string += tweet.to_json
+      json_string += ','
+    end
+    json_string.gsub!(/,$/,"]")
+  end
 end
