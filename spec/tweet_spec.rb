@@ -7,7 +7,7 @@ require "fileutils"
 describe Twitter::Tweet do
 
   let(:yaml_file) { File.expand_path("../../fixtures/tweets/twenty_tweets_1.yml", __FILE__) }
-  let(:tweets) { Tweets.new.deserialize(yaml_file).tweets }
+  let(:tweets) { Tweets.deserialize(yaml_file).tweets }
 
   describe "#display_string" do
 

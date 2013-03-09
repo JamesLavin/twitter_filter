@@ -15,7 +15,7 @@ class Tweets
   include Enumerable
   extend Forwardable
 
-  def_delegators :@tweets, :each, :<<, :[], :[]=, :concat, :size, :length, :first, :last
+  def_delegators :@tweets, :each, :map, :<<, :[], :[]=, :concat, :size, :length, :first, :last
 
   def initialize(config={})
     @tweets = config[:tweets] || []
@@ -23,11 +23,22 @@ class Tweets
 
   def serialize(save_name)
     File.open(save_name, 'w') do |f|
+      f.write YAML.dump(self)
+    end
+  end
+
+  def self.deserialize(save_name)
+    # returns Tweets object
+    YAML.load(File.read(save_name))
+  end
+
+  def serialize_tweets_array(save_name)
+    File.open(save_name, 'w') do |f|
       f.write YAML.dump(tweets)
     end
   end
 
-  def deserialize(save_name)
+  def deserialize_tweets_array(save_name)
     tweets = YAML.load(File.read(save_name))
   end
 
