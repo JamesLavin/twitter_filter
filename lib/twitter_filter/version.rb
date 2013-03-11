@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
 module TwitterFilter
-  VERSION = '0.0.4'
-  DATE = '2013-03-08'
+  VERSION = '0.0.5'
+  DATE = '2013-03-11'
 end

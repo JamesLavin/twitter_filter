@@ -84,9 +84,9 @@ class GetTweets
     tsc = TweetStream::Client.new
     tsc.sample do |status, client|
       handle_tweet(status)
-      client.stop if more_tweets == 0
+      client.stop if more_tweets <= 0
     end
-    (sleep 0.1 until more_tweets == 0) if num
+    (sleep 0.2 until more_tweets <= 0) if num
     tweets
   end
 
@@ -96,9 +96,9 @@ class GetTweets
     tsc = TweetStream::Client.new
     tsc.track(term) do |status, client|
       handle_tweet(status)
-      client.stop if more_tweets == 0
+      client.stop if more_tweets <= 0
     end
-    (sleep 0.1 until more_tweets == 0) if num
+    (sleep 0.2 until more_tweets <= 0) if num
     tweets
   end
 end

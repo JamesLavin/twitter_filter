@@ -88,7 +88,7 @@ describe GetTweets do
     it "gets and saves the correct number of tweets" do
      
       twenty_tweets = gt.sample(20, {display: false})
-      twenty_tweets.size.should == 20
+      twenty_tweets.tweets.length.should >= 20
 
     end
 
